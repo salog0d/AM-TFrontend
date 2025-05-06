@@ -1,0 +1,112 @@
+/* src/Login.css */
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: #fff;
+  }
+  
+.login-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+
+.login-box {
+    background: #fff;
+    width: 320px;
+    height: 300px;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+
+    
+}
+
+.login-box input {
+    font-family: 'Arial', sans-serif;
+    padding: 0.8rem 1rem;
+    border: none;
+    border-radius: 100px;
+    background: #ffffff;
+    font-size: 1rem;
+    border: 1px solid #cccccc;
+}
+
+.login-box button {
+    background: #2f80ed;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0.8rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.login-box button:hover {
+    background: #256cd1;
+}
+
+/* Circles for decoration */
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.circle-purple {
+    width: 565px;
+    height: 537px;
+    background-color: #8201F9;
+    left: -134px;
+    top: 974px;
+    z-index: 0;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+
+.circle-blue.circle-bottom {
+    width: 229px;
+    height: 218px;
+    background: #3794E1;
+    left: 266px;
+    top: 1200px;
+    z-index: 1;
+    box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.circle-blue.circle-top {
+    width: 507px;
+    height: 482px;
+    background: #3794E1;
+    right: -250px;
+    top: -240px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+
+.logo-image {
+    width: 764px !important;
+    height: 179px !important;
+}
+
