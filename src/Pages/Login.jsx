@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../assets/styles/Login.css'; 
-import logo from '../assets/images/SHIELD_logo.jpg'; // Asegúrate de que la ruta sea correcta
+import logo from '../assets/images/SHIELD_logo.png'; // Asegúrate de que la ruta sea correcta
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +10,21 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    // Simulate an API call
+    setTimeout(() => {
+      if (username === 'admin' && password === 'password') {
+        navigate('/coach-dashboard'); // Redirect to dashboard on success
+      } else {
+        setError('Invalid username or password');
+      }
+      setLoading(false);
+    }, 1000);
+  }
 
   return (
     <div className="login-page">
@@ -29,7 +44,7 @@ const Login = () => {
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
-            <div className="input-group">
+            <div className="input-container">
               <i className="fas fa-user"></i>
               <input
                 type="text"
@@ -44,7 +59,7 @@ const Login = () => {
           
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <div className="input-group">
+            <div className="input-container">
               <i className="fas fa-lock"></i>
               <input
                 type="password"
@@ -80,6 +95,6 @@ const Login = () => {
       </div>
     </div>
   );
-};
+};  
 
 export default Login;

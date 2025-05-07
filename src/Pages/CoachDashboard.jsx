@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Activity, Users, Award, Calendar, ChevronDown, ChevronUp, LogOut } from 'lucide-react';
+import '../assets/styles/CoachDashboard.css'; 
 
 // This would be replaced with actual API calls using axios
 const fetchDashboardData = () => {
@@ -83,7 +84,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Navigation */}
-      <nav className="bg-blue-800 text-white p-4">
+      <nav className="navbar">
         <div className="container mx-auto flex justify-between items-center">
           <div className="font-bold text-xl">Athlete Tracking System</div>
           <div className="flex items-center gap-4">
@@ -96,7 +97,7 @@ const Dashboard = () => {
       </nav>
 
       {/* Main content */}
-      <div className="container mx-auto p-4">
+      <div className="main-content">
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h1 className="text-2xl font-bold mb-2">Coach Dashboard</h1>
           <p className="text-gray-600">Monitor your athletes' performance and upcoming evaluations.</p>
@@ -202,9 +203,8 @@ const Dashboard = () => {
           </div>
 
           {/* Athletes list */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <div 
-              className="flex justify-between items-center cursor-pointer"
+          <div className="main-content-athletes">
+            <div className="main-content-athletes-top"
               onClick={() => toggleSection('athletes')}
             >
               <h2 className="text-lg font-semibold">Top Athletes</h2>
@@ -212,8 +212,9 @@ const Dashboard = () => {
             </div>
             
             <div className={`mt-4 space-y-4 ${expandedSection === 'athletes' ? 'block' : 'hidden md:block'}`}>
+              <div className="main-content-athletes-container">
               {dashboardData.athletes.slice(0, 4).map((athlete) => (
-                <div key={athlete.id} className="flex items-center justify-between border-b pb-3">
+                <div key={athlete.id} className="athlete-item">
                   <div>
                     <div className="font-medium">{athlete.name}</div>
                     <div className="text-sm text-gray-500">{athlete.discipline}</div>
@@ -230,6 +231,7 @@ const Dashboard = () => {
                 </div>
               ))}
               <button className="text-blue-600 text-sm">View All Athletes</button>
+              </div>
             </div>
           </div>
 
@@ -306,7 +308,7 @@ const Dashboard = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white p-4 mt-8">
+      <footer className="footer">
         <div className="container mx-auto text-center">
           <p>© 2025 Athlete Tracking System. All rights reserved.</p>
         </div>
