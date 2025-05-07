@@ -1,0 +1,95 @@
+/* CoachDashboard.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+/* Reset & Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: #000;
+    background-color: #ffffff;
+  }
+  
+  /* Navbar con degradado vertical */
+  .navbar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 200px;
+    height: 100vh;
+    background: linear-gradient(180deg, #3895dd 0%, #8303fa 100%);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.4);
+  }
+  
+  /* Main con fondo semitransparente */
+  .main-content {
+    margin-left: 200px;
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 70px);
+    background: #ffffff;
+  }
+
+  .main-content-athletes{
+    position: fixed;
+    top: 0; right: 0;
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(180deg, #3895dd 0%, #8303fa 100%);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.4);
+  }
+
+  .main-content-athletes-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .main-content-athletes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0 0;  /* top 1rem, lados 0, bottom 0 */
+  }
+  
+
+.main-content-athletes-container .athlete-item {
+    background: #e3e3e3;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+  
+
+  /* Footer pegado abajo del main */
+  .footer {
+    height: 70px;
+    margin-left: 200px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+  
