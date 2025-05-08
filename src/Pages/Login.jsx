@@ -2,7 +2,6 @@ import { useState } from 'react';
 import '../assets/styles/Login.css';
 import { authService } from '../services/ApiService'; 
 
-
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +13,7 @@ const Login = () => {
     setLoading(true);
     setError('');
     if (!username) {
-      setError('Por favor, introduce tu correo electrónico.');
+      setError('Por favor, introduce tu nombre de usuario.');
       setLoading(false);
       return;
     }
@@ -29,22 +28,31 @@ const Login = () => {
       const response = await authService.login(username, password);
       console.log('Login response:', response);
       
-        // Check the user's role and redirect accordingly
-        if (response.role === 'admin') {
-          window.location= "admin-dashboard";
-        } else if (response.role === 'coach') {
-          window.location= "coach-dashboard";
-        } else if (response.role === 'athlete') {
-          window.location= "athlete-dashboard";
-        }
-      } catch (error) {
-        setError('Invalid Credentials');
-        
-      } finally {
-        setLoading(false);
+      // Check the user's role and redirect accordingly
+      if (response.role === 'admin') {
+        window.location = "admin-dashboard";
+      } else if (response.role === 'coach') {
+        window.location = "coach-dashboard";
+      } else if (response.role === 'athlete') {
+        window.location = "athlete-dashboard";
+      } else {
+        // Default fallback
+        window.location = "/login";
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      // Mejora del mensaje de error para ser más descriptivo
+      if (error.response && error.response.status === 401) {
+        setError('Credenciales inválidas. Por favor, verifica tu usuario y contraseña.');
+      } else if (error.message) {
+        setError(error.message);
+      } else {
+        setError('Error al iniciar sesión. Por favor, intenta de nuevo más tarde.');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
-  
   
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-4">
@@ -77,14 +85,14 @@ const Login = () => {
                 </svg>
               </div>
               <input
-                    type="text"
-                    id="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-black focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition placeholder-black"
-                    placeholder="Enter your username"
-                    required
-/>
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-black focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition placeholder-black"
+                placeholder="Enter your username"
+                required
+              />
             </div>
           </div>
           
@@ -97,14 +105,14 @@ const Login = () => {
                 </svg>
               </div>
               <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-black focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition placeholder-black"
-                    placeholder="Enter your password"
-                    required
-/>
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-black focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition placeholder-black"
+                placeholder="Enter your password"
+                required
+              />
             </div>
           </div>
           
