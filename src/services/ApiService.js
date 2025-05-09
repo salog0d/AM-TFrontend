@@ -73,112 +73,76 @@ apiClient.interceptors.response.use(
 export const authService = {
   login: async (username, password) => {
     try {
-      console.log('Intentando login con:', { username });
+      const response = await fetch(`${API_URL}/custom_auth/token/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
       
-      // Try the JWT endpoint first
-      let response;
-      try {
-        // Intenta primero la ruta JWT nueva
-        response = await apiClient.post('/api/auth/token/', { username, password });
-      } catch (e) {
-        if (e.response && e.response.status === 404) {
-          // Si recibimos 404, probamos con la ruta antigua
-          console.log('Endpoint nuevo no encontrado, probando con endpoint antiguo');
-          response = await apiClient.post('/custom_auth/token/', { username, password });
-        } else {
-          // Si es otro error, lo propagamos
-          throw e;
-        }
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error en la autenticación');
       }
       
-      console.log('Respuesta completa:', response);
-      console.log('Datos recibidos:', response.data);
+      const data = await response.json();
+      console.log('Datos recibidos:', data);
       
-      // Extrae los tokens (busca diferentes posibles estructuras)
-      const accessToken = response.data.access || response.data.token;
-      const refreshToken = response.data.refresh;
-      
-      if (accessToken) {
-        // Almacena tokens
-        localStorage.setItem('accessToken', accessToken);
-        if (refreshToken) {
-          localStorage.setItem('refreshToken', refreshToken);
-        }
-        
-        // Actualiza el header para la siguiente solicitud
-        apiClient.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-        
-        // Extrae información del usuario - primero de la respuesta principal
-        let userData = {
-          id: response.data.id || response.data.user_id,
-          username: response.data.username,
-          email: response.data.email,
-          role: response.data.role,
-          discipline: response.data.discipline,
-          is_active: response.data.is_active || response.data.active
-        };
-        
-        // Si el usuario no está completo en la respuesta principal, intenta obtener el perfil
-        if (!userData.role) {
-          try {
-            console.log('Intentando obtener más datos del usuario...');
-            const userResponse = await apiClient.get('/custom_auth/profile/');
-            console.log('Datos adicionales del usuario:', userResponse.data);
-            
-            userData = {
-              id: userResponse.data.id || userData.id,
-              username: userResponse.data.username || userData.username,
-              email: userResponse.data.email || userData.email,
-              role: userResponse.data.role || userData.role,
-              discipline: userResponse.data.discipline || userData.discipline,
-              is_active: userResponse.data.is_active || userResponse.data.active || userData.is_active
-            };
-          } catch (profileError) {
-            console.warn('No se pudo obtener perfil completo:', profileError);
-            // Si falla, usamos lo que tenemos
-          }
-        }
-        
-        console.log('Datos de usuario finales:', userData);
-        localStorage.setItem('user', JSON.stringify(userData));
-        return userData;
-      } else {
-        console.error('No se recibieron tokens en la respuesta:', response.data);
-        throw new Error('Tokens not received from server');
+      // Guardar tokens y datos de usuario
+      if (data.access) {
+        localStorage.setItem('accessToken', data.access);
       }
+      
+      if (data.refresh) {
+        localStorage.setItem('refreshToken', data.refresh);
+      }
+  
+      // Extraer información del token
+      let userData = {
+        id: data.user_id, // Si el backend proporciona esto
+        username: data.username || username, // Usa el username enviado si no viene en la respuesta
+        email: data.email,
+        role: data.role,
+        discipline: data.discipline,
+        active: data.active || data.is_active
+      };
+      
+      // Guardar datos del usuario en localStorage
+      localStorage.setItem('user', JSON.stringify(userData));
+  
+      return userData;
     } catch (error) {
-      console.error("Error completo de login:", error);
-      if (error.response) {
-        console.error("Datos del error:", error.response.data);
-        console.error("Estado del error:", error.response.status);
-      }
+      console.error('Error en login:', error);
       throw error;
     }
   },
+
   
   logout: async () => {
-    try {
-      // Call the logout endpoint with refresh token if it exists
-      const refreshToken = localStorage.getItem('refreshToken');
-      if (refreshToken) {
-        try {
-          // Intenta primero la ruta JWT nueva
-          await apiClient.post('/custom_auth/logout/', { refresh: refreshToken });
-        } catch (e) {
-          // Si falla, intentamos con la ruta antigua
-          if (e.response && e.response.status === 404) {
-            await apiClient.post('/custom_auth/logout/');
-          }
-        }
+    
+      const refreshToken = localStorage.getItem("refreshToken");
+      const accessToken = localStorage.getItem("accessToken"); 
+      
+      try {
+        await fetch(`${API_URL}/custom_auth/logout/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`, 
+          },
+          body: JSON.stringify({ refresh: refreshToken }),
+        });
+      } catch (apiError) {
+        console.error('Error al comunicar logout al servidor:', apiError);
+      } finally {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
       }
-    } catch (error) {
-      console.error("Logout error:", error);
-    } finally {
-      // Always clear local storage
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('user');
-    }
+    
+      return { success: true };
+    
   },
   
   refreshToken: async () => {

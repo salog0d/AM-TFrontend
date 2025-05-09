@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../assets/styles/Login.css';
 import { authService } from '../services/ApiService'; 
+import '../assets/styles/Login.css';
 
 const AdminDashboard = () => {
     // Add state for user data if needed
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
             console.log('Logout successful');
             
             // Navigate to login page
-            window.location.href = '/login';
+          
         } catch (error) {
             console.error('Logout error:', error);
         }
@@ -107,7 +107,7 @@ const AdminDashboard = () => {
                       </div>
                   </div>
                   <p className="text-gray-600 mb-4">Quick overview of system statistics and performance metrics.</p>
-                  <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg transition flex items-center justify-center">
+                  <button className="w-full bg-gray-100 hover:bg-gray-200 text-white-800 py-2 rounded-lg transition flex items-center justify-center">
                       <span>View Statistics</span>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -148,7 +148,7 @@ const AdminDashboard = () => {
                       </div>
                   </div>
                   <p className="text-gray-600 mb-4">Configure and manage athletic tests and evaluation sessions.</p>
-                  <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg transition flex items-center justify-center">
+                  <button className="w-full bg-gray-100 hover:bg-gray-200 text-white py-2 rounded-lg transition flex items-center justify-center">
                       <span>Manage Tests</span>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import '../assets/styles/Login.css';
 import { authService } from '../services/ApiService'; 
+import '../assets/styles/Login.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -37,7 +37,7 @@ const Login = () => {
         window.location = "athlete-dashboard";
       } else {
         // Default fallback
-        window.location = "/login";
+       
       }
     } catch (error) {
       console.error('Login error:', error);
