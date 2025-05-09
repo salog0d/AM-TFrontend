@@ -73,7 +73,7 @@ apiClient.interceptors.response.use(
 export const authService = {
   login: async (username, password) => {
     try {
-      const response = await fetch(`${API_URL}/custom_auth/token/`, {
+      const response = await fetch(`${API_URL}custom_auth/token/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export const authService = {
       const data = await response.json();
       console.log('Datos recibidos:', data);
       
-      // Guardar tokens y datos de usuario
+      // Guardar tokens
       if (data.access) {
         localStorage.setItem('accessToken', data.access);
       }
@@ -98,14 +98,14 @@ export const authService = {
         localStorage.setItem('refreshToken', data.refresh);
       }
   
-      // Extraer información del token
+      // Extraer información directamente de la respuesta
       let userData = {
-        id: data.user_id, // Si el backend proporciona esto
-        username: data.username || username, // Usa el username enviado si no viene en la respuesta
+        id: data.user_id,
+        username: data.username,
         email: data.email,
-        role: data.role,
+        role: data.role,  // This should now be available directly
         discipline: data.discipline,
-        active: data.active || data.is_active
+        active: data.is_active
       };
       
       // Guardar datos del usuario en localStorage
@@ -118,7 +118,7 @@ export const authService = {
     }
   },
 
-  
+
   logout: async () => {
     
       const refreshToken = localStorage.getItem("refreshToken");

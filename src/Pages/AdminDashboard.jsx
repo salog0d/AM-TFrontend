@@ -38,7 +38,7 @@ const AdminDashboard = () => {
             console.log('Logout successful');
             
             // Navigate to login page
-          
+          window.location = 'login';
         } catch (error) {
             console.error('Logout error:', error);
         }
