@@ -1,12 +1,146 @@
-# React + Vite
+# SHIELD - Athlete Tracking System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![SHIELD Logo](https://img.shields.io/badge/SHIELD-Athlete%20Tracking%20System-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-Currently, two official plugins are available:
+A comprehensive web application for tracking and managing athlete performance, designed for teams and sports organizations. SHIELD provides separate dashboards for athletes, coaches, and administrators to streamline performance tracking and team management.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### For Athletes
+- Personal dashboard with performance statistics
+- View assigned tests and results
+- Track progress over time
+- Communicate with coaches
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### For Coaches
+- Manage multiple athletes
+- Monitor athlete performance
+- Assign and schedule tests
+- Review detailed test results
+
+### For Administrators
+- Complete user management system
+- Role-based access control
+- System-wide statistics and reporting
+- Configure test parameters and disciplines
+
+## Technology Stack
+
+- **Frontend**: React 19, React Router DOM 7
+- **Build Tool**: Vite 6
+- **CSS Framework**: Tailwind CSS 4
+- **HTTP Client**: Axios
+- **Authentication**: JWT (JSON Web Token)
+- **Code Quality**: ESLint
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18.0.0 or higher)
+- npm (v8.0.0 or higher)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/shield-athlete-tracking.git
+   cd shield-athlete-tracking
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the root directory:
+   ```
+   VITE_API_URL=http://localhost:8000
+   ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+The application will be available at [http://localhost:5173](http://localhost:5173).
+
+## Build for Production
+
+To build the application for production:
+
+```bash
+npm run build
+```
+
+The build will be available in the `dist` directory.
+
+## Project Structure
+
+```
+shield-athlete-tracking/
+├── public/                  # Static assets
+├── src/
+│   ├── assets/              # Images, fonts, and global styles
+│   ├── components/          # Reusable UI components
+│   │   └── core/            # Core UI components (navbar, footer, etc.)
+│   ├── Pages/               # Page components
+│   │   ├── AdminDashboard/  # Admin interface
+│   │   ├── AthleteDashboard/# Athlete interface
+│   │   ├── CoachDashboard/  # Coach interface
+│   │   ├── Login/           # Authentication screens
+│   │   └── UsersPanel/      # User management
+│   ├── services/            # API services
+│   ├── App.jsx              # Main application component
+│   ├── main.jsx             # Entry point
+│   └── index.css            # Global CSS
+├── .eslintrc.js             # ESLint configuration
+├── package.json             # Project metadata and dependencies
+├── vite.config.js           # Vite configuration
+└── README.md                # Project documentation
+```
+
+## Authentication
+
+The application uses JWT for authentication. Tokens are stored in localStorage and automatically included in API requests. The authentication service handles token refresh and user session management.
+
+## User Roles
+
+- **Athlete**: Regular users who can view their own performance data
+- **Coach**: Can manage athletes and their performance data
+- **Admin**: Full system access with user management capabilities
+
+## Development Notes
+
+### API Integration
+
+The frontend expects a RESTful API at the URL specified in the `.env` file. The API service handles authentication, error handling, and request interceptors.
+
+### Adding New Components
+
+When adding new components:
+
+1. Create a new file in the appropriate directory
+2. Import necessary dependencies
+3. Define the component
+4. Export the component
+5. Import and use the component in other files
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- React team for the amazing frontend library
+- Vite team for the lightning-fast build tool
+- Tailwind CSS team for the utility-first CSS framework
