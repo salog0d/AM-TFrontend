@@ -48,6 +48,14 @@ const AdminDashboard = () => {
     const goToUserManagement = () => {
         navigate('/users-panel');
     };
+
+    const goToTestManagement = () => {
+        navigate('/users-panel');
+    };
+
+        const goToSessionsManagement = () => {
+        navigate('/users-panel');
+    };
     
     if (loading) {
         return (
@@ -99,16 +107,18 @@ const AdminDashboard = () => {
               {/* System Stats */}
               <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition border border-gray-200">
                   <div className="flex items-center justify-between mb-4">
-                      <h2 className="text-xl font-semibold text-gray-800">System Stats</h2>
+                      <h2 className="text-xl font-semibold text-gray-800">Test sessions and Results</h2>
                       <div className="p-2 bg-blue-100 rounded-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                           </svg>
                       </div>
                   </div>
-                  <p className="text-gray-600 mb-4">Quick overview of system statistics and performance metrics.</p>
-                  <button className="w-full bg-gray-100 hover:bg-gray-200 text-white-800 py-2 rounded-lg transition flex items-center justify-center">
-                      <span>View Statistics</span>
+                  <p className="text-gray-600 mb-4">Quick overview of available test sessions and Results</p>
+                  <button 
+                onClick={goToSessionsManagement}
+                  className="w-full bg-gray-100 hover:bg-gray-200 text-white-800 py-2 rounded-lg transition flex items-center justify-center">
+                      <span>View Sessions</span>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
@@ -148,7 +158,9 @@ const AdminDashboard = () => {
                       </div>
                   </div>
                   <p className="text-gray-600 mb-4">Configure and manage athletic tests and evaluation sessions.</p>
-                  <button className="w-full bg-gray-100 hover:bg-gray-200 text-white py-2 rounded-lg transition flex items-center justify-center">
+                  <button 
+                   onClick={goToTestManagement}
+                  className="w-full bg-gray-100 hover:bg-gray-200 text-white py-2 rounded-lg transition flex items-center justify-center">
                       <span>Manage Tests</span>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

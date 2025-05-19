@@ -263,7 +263,7 @@ const UserManagement = () => {
 
             {/* Modal for Create/Edit/Delete */}
             {showModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
                         <div className="flex justify-between items-center p-6 bg-gray-50 border-b">
                             <h3 className="text-xl font-semibold text-gray-800">
@@ -319,7 +319,7 @@ const UserManagement = () => {
                                                 name="username" 
                                                 value={formData.username}
                                                 onChange={handleInputChange}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                                                 required
                                             />
                                         </div>
@@ -330,7 +330,7 @@ const UserManagement = () => {
                                                 name="email" 
                                                 value={formData.email}
                                                 onChange={handleInputChange}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                                                 required
                                             />
                                         </div>
@@ -345,7 +345,7 @@ const UserManagement = () => {
                                             name="password" 
                                             value={formData.password}
                                             onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                                             required={modalMode === 'create'}
                                         />
                                     </div>
@@ -357,7 +357,7 @@ const UserManagement = () => {
                                                 name="role" 
                                                 value={formData.role}
                                                 onChange={handleInputChange}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                                             >
                                                 <option value="athlete">Athlete</option>
                                                 <option value="coach">Coach</option>
@@ -370,7 +370,7 @@ const UserManagement = () => {
                                                 name="discipline" 
                                                 value={formData.discipline}
                                                 onChange={handleInputChange}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                                             >
                                                 <option value="athletics">Athletics</option>
                                                 <option value="soccer">Soccer</option>
@@ -401,7 +401,7 @@ const UserManagement = () => {
                                                 name="coach" 
                                                 value={formData.coach || ''}
                                                 onChange={handleInputChange}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                                             >
                                                 <option value="">Select a coach</option>
                                                 {coaches.map(coach => (
@@ -421,7 +421,7 @@ const UserManagement = () => {
                                                 name="date_of_birth" 
                                                 value={formData.date_of_birth}
                                                 onChange={handleInputChange}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                                             />
                                         </div>
                                         <div>
@@ -431,7 +431,7 @@ const UserManagement = () => {
                                                 name="phone_number" 
                                                 value={formData.phone_number}
                                                 onChange={handleInputChange}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                                             />
                                         </div>
                                     </div>
