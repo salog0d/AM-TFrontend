@@ -135,12 +135,3 @@ When adding new components:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- React team for the amazing frontend library
-- Vite team for the lightning-fast build tool
-- Tailwind CSS team for the utility-first CSS framework
