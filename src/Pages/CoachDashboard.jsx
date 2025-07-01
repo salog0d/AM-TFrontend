@@ -53,10 +53,15 @@ const CoachDashboard = () => {
   // Fetch athletes assigned to this coach
   const fetchAthletes = async (coachId) => {
     try {
+      console.log('Fetching athletes for coach ID:', coachId);
       const response = await apiClient.get(`/dashboard/coach-dashboard/${coachId}/`);
+      console.log('Coach dashboard response:', response.data);
+      
       if (response.data && response.data.athletes) {
+        console.log('Athletes found:', response.data.athletes);
         setAthletes(response.data.athletes);
       } else {
+        console.log('No athletes found in response');
         setAthletes([]);
       }
     } catch (err) {
@@ -203,7 +208,7 @@ const CoachDashboard = () => {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              My Athletes
+              My Athletes ({athletes.length})
             </button>
           </nav>
         </div>
@@ -258,9 +263,29 @@ const CoachDashboard = () => {
             </div>
 
             <div className="md:col-span-3 bg-white rounded-lg shadow-md p-6 mt-4">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Activity</h3>
-              <div className="border-t border-gray-200 py-2">
-                <p className="text-gray-500 italic text-center">No recent activities to display.</p>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Athletes Summary</h3>
+              <div className="border-t border-gray-200 py-4">
+                {athletes.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {athletes.slice(0, 6).map((athlete) => (
+                      <div key={athlete.id} className="bg-gray-50 p-4 rounded-lg">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center">
+                            <span className="text-gray-500 font-medium">
+                              {athlete.username?.charAt(0).toUpperCase() || 'A'}
+                            </span>
+                          </div>
+                          <div className="ml-3">
+                            <p className="text-sm font-medium text-gray-900">{athlete.username}</p>
+                            <p className="text-xs text-gray-500">{formatDiscipline(athlete.discipline)}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 italic text-center">No athletes assigned yet.</p>
+                )}
               </div>
             </div>
           </div>
@@ -277,6 +302,10 @@ const CoachDashboard = () => {
                   <div>
                     <p className="text-sm text-gray-500">Username</p>
                     <p className="text-base font-medium text-gray-900">{coachData?.username || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Full Name</p>
+                    <p className="text-base font-medium text-gray-900">{coachData?.name || 'N/A'}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Email</p>
@@ -303,6 +332,10 @@ const CoachDashboard = () => {
                   <div>
                     <p className="text-sm text-gray-500">Phone Number</p>
                     <p className="text-base font-medium text-gray-900">{coachData?.phone_number || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Assigned Athletes</p>
+                    <p className="text-base font-medium text-gray-900">{athletes.length} athletes</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Status</p>
@@ -338,9 +371,9 @@ const CoachDashboard = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No athletes</h3>
+                <h3 className="mt-2 text-sm font-medium text-gray-900">No athletes assigned</h3>
                 <p className="mt-1 text-sm text-gray-500">
-                  You don't have any athletes assigned to you yet.
+                  Contact your administrator to have athletes assigned to you.
                 </p>
               </div>
             ) : (
@@ -485,6 +518,12 @@ const CoachDashboard = () => {
                         {selectedAthlete.active !== false ? 'Active' : 'Inactive'}
                       </span>
                     </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Coach</p>
+                      <p className="text-sm font-medium text-gray-900">
+                        {selectedAthlete.coach_username || coachData?.username || 'N/A'}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -523,10 +562,10 @@ const CoachDashboard = () => {
                       {testResults.map((result) => (
                         <tr key={result.id}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {result.test.name}
+                            {result.test_name || result.test?.name || 'Unknown Test'}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {result.numeric_value} {result.test.unit}
+                            {result.numeric_value} {result.test_unit || result.test?.unit || ''}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {formatDate(result.date_recorded)}

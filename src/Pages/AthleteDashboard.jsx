@@ -54,17 +54,23 @@ const AthleteDashboard = () => {
     try {
       const response = await apiClient.get(`/dashboard/athlete-dashboard/${athleteId}/`);
       if (response.data && response.data.athlete) {
+        console.log('Athlete data received:', response.data.athlete);
+        
         // Update athlete data with additional details
         setAthleteData(prev => ({...prev, ...response.data.athlete}));
         
-        // If athlete has a coach assigned, fetch coach details
-        if (response.data.athlete.coach) {
-          try {
-            const coachResponse = await apiClient.get(`/api/auth/get/${response.data.athlete.coach}/`);
-            setCoach(coachResponse.data);
-          } catch (coachErr) {
-            console.error('Error fetching coach details:', coachErr);
-          }
+        // Coach information is now included in the response
+        if (response.data.athlete.coach_details) {
+          console.log('Coach details found:', response.data.athlete.coach_details);
+          setCoach(response.data.athlete.coach_details);
+        } else if (response.data.athlete.coach) {
+          // Fallback: if coach_details is not available but coach ID is
+          console.log('Coach ID found, but no details. Coach ID:', response.data.athlete.coach);
+          // We could optionally fetch the coach details separately if needed
+          // but ideally coach_details should be included in the serializer
+        } else {
+          console.log('No coach assigned to this athlete');
+          setCoach(null);
         }
       }
     } catch (err) {
@@ -77,7 +83,7 @@ const AthleteDashboard = () => {
   const fetchTestResults = async (athleteId) => {
     setResultsLoading(true);
     try {
-      const response = await apiClient.get(`/api/dashboard/test-results/${athleteId}/`);
+      const response = await apiClient.get(`/dashboard/test-results/${athleteId}/`);
       if (response.data && response.data.test_results) {
         setTestResults(response.data.test_results);
       } else {
@@ -277,10 +283,18 @@ const AthleteDashboard = () => {
                     <h4 className="text-base font-medium text-gray-900">{coach.username}</h4>
                     <p className="text-sm text-gray-500">{formatDiscipline(coach.discipline)}</p>
                     <p className="text-sm text-gray-500">{coach.email}</p>
+                    {coach.phone_number && (
+                      <p className="text-sm text-gray-500">Tel: {coach.phone_number}</p>
+                    )}
                   </div>
                 </div>
               ) : (
-                <p className="text-gray-500 italic">No coach assigned.</p>
+                <div className="text-center py-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                  <p className="text-gray-500 italic mt-2">No coach assigned.</p>
+                </div>
               )}
             </div>
 
@@ -295,9 +309,9 @@ const AthleteDashboard = () => {
                   {testResults.slice(0, 3).map((result) => (
                     <div key={result.id} className="p-3 bg-gray-50 rounded-md">
                       <div className="flex justify-between items-center">
-                        <p className="text-sm font-medium text-gray-800">{result.test.name}</p>
+                        <p className="text-sm font-medium text-gray-800">{result.test_name || result.test?.name || 'Unknown Test'}</p>
                         <span className="text-sm font-medium text-gray-700">
-                          {result.numeric_value} {result.test.unit}
+                          {result.numeric_value} {result.test_unit || result.test?.unit || ''}
                         </span>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">{formatDate(result.date_recorded)}</p>
@@ -330,6 +344,10 @@ const AthleteDashboard = () => {
                     <p className="text-base font-medium text-gray-900">{athleteData?.username || 'N/A'}</p>
                   </div>
                   <div>
+                    <p className="text-sm text-gray-500">Full Name</p>
+                    <p className="text-base font-medium text-gray-900">{athleteData?.name || 'N/A'}</p>
+                  </div>
+                  <div>
                     <p className="text-sm text-gray-500">Email</p>
                     <p className="text-base font-medium text-gray-900">{athleteData?.email || 'N/A'}</p>
                   </div>
@@ -357,7 +375,7 @@ const AthleteDashboard = () => {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Coach</p>
-                    <p className="text-base font-medium text-gray-900">{coach?.username || 'No coach assigned'}</p>
+                    <p className="text-base font-medium text-gray-900">{coach?.username || athleteData?.coach_username || 'No coach assigned'}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Status</p>
@@ -428,25 +446,25 @@ const AthleteDashboard = () => {
                     {testResults.map((result) => (
                       <tr key={result.id} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">{result.test.name}</div>
+                          <div className="text-sm font-medium text-gray-900">{result.test_name || result.test?.name || 'Unknown Test'}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            result.test.category === 'strength' ? 'bg-red-100 text-red-800' :
-                            result.test.category === 'endurance' ? 'bg-blue-100 text-blue-800' :
-                            result.test.category === 'speed' ? 'bg-yellow-100 text-yellow-800' :
-                            result.test.category === 'flexibility' ? 'bg-green-100 text-green-800' :
+                            (result.test_category || result.test?.category) === 'strength' ? 'bg-red-100 text-red-800' :
+                            (result.test_category || result.test?.category) === 'endurance' ? 'bg-blue-100 text-blue-800' :
+                            (result.test_category || result.test?.category) === 'speed' ? 'bg-yellow-100 text-yellow-800' :
+                            (result.test_category || result.test?.category) === 'flexibility' ? 'bg-green-100 text-green-800' :
                             'bg-purple-100 text-purple-800'
                           }`}>
-                            {result.test.category?.charAt(0).toUpperCase() + result.test.category?.slice(1) || 'Unknown'}
+                            {(result.test_category || result.test?.category)?.charAt(0).toUpperCase() + (result.test_category || result.test?.category)?.slice(1) || 'Unknown'}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {result.numeric_value} {result.test.unit}
-                            {result.test.higher_is_better !== undefined && (
+                            {result.numeric_value} {result.test_unit || result.test?.unit || ''}
+                            {(result.test_higher_is_better !== undefined || result.test?.higher_is_better !== undefined) && (
                               <span className="ml-2 text-xs">
-                                {result.test.higher_is_better ? 
+                                {(result.test_higher_is_better || result.test?.higher_is_better) ? 
                                   <span className="text-green-600">↑</span> : 
                                   <span className="text-red-600">↓</span>
                                 }
