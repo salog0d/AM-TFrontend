@@ -117,21 +117,5 @@ The application uses JWT for authentication. Tokens are stored in localStorage a
 
 The frontend expects a RESTful API at the URL specified in the `.env` file. The API service handles authentication, error handling, and request interceptors.
 
-### Adding New Components
 
-When adding new components:
-
-1. Create a new file in the appropriate directory
-2. Import necessary dependencies
-3. Define the component
-4. Export the component
-5. Import and use the component in other files
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
